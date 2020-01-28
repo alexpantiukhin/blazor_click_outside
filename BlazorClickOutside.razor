@@ -1,0 +1,40 @@
+﻿@inject IJSRuntime _jsRuntime
+
+<div class="out-element-click @Class"
+     id="@Id"
+     @attributes="InputAttributes"
+     @ref="Element"
+     @onclick="Click">
+    @ChildContent
+</div>
+
+@code{
+    [Parameter]
+    public string Class { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public EventCallback OnClickOut { get; set; }
+    [Parameter]
+    public EventCallback Click { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set; }
+
+    public ElementReference Element { get; private set; }
+
+    private string Id { get; set; } = Guid.NewGuid().ToString();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _jsRuntime.InvokeVoidAsync("OutClickComponent.setEvent", Id, DotNetObjectReference.Create(this));
+        }
+    }
+
+    [JSInvokable]
+    public Task ClickOut()
+    {
+        return OnClickOut.InvokeAsync(null);
+    }
+}
