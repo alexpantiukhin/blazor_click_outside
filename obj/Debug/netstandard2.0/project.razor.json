@@ -1,0 +1,23 @@
+{
+  "FilePath": "c:\\Users\\Alex\\source\\repos\\blazor_click_outside\\BlazorClickOutsideComponent.csproj",
+  "Configuration": {
+    "ConfigurationName": "Default",
+    "LanguageVersion": "3.0",
+    "Extensions": []
+  },
+  "ProjectWorkspaceState": null,
+  "RootNamespace": "BlazorClickOutsideComponent",
+  "Documents": [
+    {
+      "FilePath": "c:\\Users\\Alex\\source\\repos\\blazor_click_outside\\_Imports.razor",
+      "TargetPath": "_Imports.razor",
+      "FileKind": "componentImport"
+    },
+    {
+      "FilePath": "c:\\Users\\Alex\\source\\repos\\blazor_click_outside\\BlazorClickOutside.razor",
+      "TargetPath": "BlazorClickOutside.razor",
+      "FileKind": "component"
+    }
+  ],
+  "SerializationFormat": "0.2"
+}
