@@ -2,11 +2,9 @@
 // wrapped in a .NET API
 
 window.OutClickComponent = {
-    setEvent: function (id, dotNet) {
+    setEvent: function (element, dotNet) {
         window.addEventListener("click", (e) => {
-            var element = document.getElementById(id);
-
-            if (element && !element.contains(e.target)) {
+            if (!element.contains(e.target)) {
                 dotNet.invokeMethodAsync("ClickOut");
             }
         });
