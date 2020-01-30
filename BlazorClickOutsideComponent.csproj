@@ -9,6 +9,9 @@
     <Authors>Aleksandr Pantiukhin</Authors>
     <Product>BlazorClickOutsideComponent</Product>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
 
