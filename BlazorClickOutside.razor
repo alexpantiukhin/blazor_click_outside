@@ -19,14 +19,20 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> InputAttributes { get; set; }
 
-    public ElementReference Element { get; private set; }
+    public ElementReference Element { get; set; }
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            _jsRuntime.InvokeVoidAsync("OutClickComponent.setEvent", Element, DotNetObjectReference.Create(this));
+            _jsRuntime.InvokeVoidAsync("OutClickComponent.setEvent", DotNetObjectReference.Create(this), Element);
+
         }
+    }
+
+    public void SetExcludedElements(params ElementReference[] elements)
+    {
+        _jsRuntime.InvokeVoidAsync("OutClickComponent.setExcludedElements", elements);
     }
 
     [JSInvokable]
