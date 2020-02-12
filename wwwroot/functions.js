@@ -4,27 +4,44 @@
 window.OutClickComponent = {
     excludedElements: [],
     setExcludedElements: function (elements) {
-        for (var i = 0; i < elements.length; i++) {
-            this.excludedElements.push(elements[i]);
-        }
-    },
-    setEvent: function (dotNet, element) {
-        this.excludedElements.push(element);
+        var outsideElement = elements[0];
 
-        window.addEventListener("click", (e) => {
-            var out = true;
+        for (var i = 0; i < this.excludedElements; i++) {
+            if (this.excludedElements[i].outsideElement === outsideElement) {
 
-            for (var i = 0; i < this.excludedElements.length; i++) {
-                var currentElement = this.excludedElements[i];
-
-                if (currentElement.contains(e.target)) {
-                    out = false;
-                    break;
+                for (var j = 1; j < elements.length; j++) {
+                    if (!this.excludedElements[i].excluded) {
+                        this.excludedElements[i].excluded = [];
+                    }
+                    this.excludedElements[i].excluded.push(elements[j]);
                 }
             }
+        }
 
-            if (out) {
-                dotNet.invokeMethodAsync("ClickOut");
+    },
+    setEvent: function (dotNet, element) {
+        this.excludedElements.push({
+            outsideElement: element,
+            excluded: [
+                element
+            ]
+        });
+
+        window.addEventListener("click", (e) => {
+            for (var i = 0; i < this.excludedElements.length; i++) {
+                if (this.excludedElements[i].outsideElement === element) {
+                    var excluded = this.excludedElements[i].excluded;
+
+                    for (var j = 0; j < excluded.length; j++) {
+                        var currentElement = this.excludedElements[i].excluded[j];
+
+                        if (!currentElement.contains(e.target)) {
+                            dotNet.invokeMethodAsync("ClickOut");
+                            return;
+                        }
+                    }
+                    break;
+                }
             }
         });
     }
