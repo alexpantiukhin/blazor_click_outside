@@ -1,6 +1,7 @@
 ﻿@inject IJSRuntime _jsRuntime
 
 <div class="out-element-click @Class"
+     id="@HtmlId"
      @attributes="InputAttributes"
      @ref="Element"
      @onclick="OnClick">
@@ -8,6 +9,8 @@
 </div>
 
 @code{
+    [Parameter]
+    public string HtmlId { get; set; }
     [Parameter]
     public string Class { get; set; }
     [Parameter]
@@ -32,9 +35,9 @@
     }
 
     [JSInvokable]
-    public async Task ClickOut()
+    public Task ClickOut()
     {
         //if (element.Id == Element.Id)
-        await OnClickOut.InvokeAsync(null);
+        return OnClickOut.InvokeAsync(null);
     }
 }

@@ -41,7 +41,7 @@ window.OutClickComponent = {
                         }
 
                         if (isOut) {
-                            dotNet.invokeMethodAsync("ClickOut", element);
+                            dotNet.invokeMethodAsync("ClickOut");
                         }
                     }
                 }

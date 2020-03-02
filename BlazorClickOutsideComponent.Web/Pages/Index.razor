@@ -1,23 +1,23 @@
 ﻿@page "/"
-<button id="@ButtonOutId" @ref="ButtonOut">ButtonOut</button>
+<button id="@ButtonOutId">ButtonOut</button>
 
 <BlazorClickOutside OnClickOut="ClickOutHandler1"
-                    ExcludedHTMLElementIDs="new List<string> { ButtonOutId }">
+                    ExcludedHTMLElementIDs="ExcludedIDs"
+                    OnClick="OnClickHandler1">
     <div>Counter: @Counter1</div>
     <button @onclick="() => Counter1 ++">+</button>
+
+    <BlazorClickOutside OnClickOut="ClickOutHandler2">
+        <div>Counter: @Counter2</div>
+        <button @onclick="() => Counter2 ++">+</button>
+    </BlazorClickOutside>
 </BlazorClickOutside>
 
-
-<BlazorClickOutside OnClickOut="ClickOutHandler2">
-    <div>Counter: @Counter2</div>
-    <button @onclick="() => Counter2 ++">+</button>
-</BlazorClickOutside>
 
 @code {
-    ElementReference ButtonOut;
-    BlazorClickOutsideComponent.BlazorClickOutside outside;
 
     string ButtonOutId = "123";
+    List<string> ExcludedIDs;
     int counter1 = 0;
     int Counter1
     {
@@ -43,16 +43,26 @@
         }
     }
 
+    protected override void OnInitialized()
+    {
+        ExcludedIDs = new List<string> { ButtonOutId };
+    }
+
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
     }
 
-    void ClickOutHandler1()
+    async void ClickOutHandler1()
     {
         var a = 1;
     }
-    void ClickOutHandler2()
+    async void ClickOutHandler2()
+    {
+        var a = 1;
+    }
+
+    async void OnClickHandler1()
     {
         var a = 1;
     }
