@@ -47,5 +47,8 @@ window.OutClickComponent = {
                 }
             }
         });
+    },
+    Onclick: function (e) {
+
     }
 };
