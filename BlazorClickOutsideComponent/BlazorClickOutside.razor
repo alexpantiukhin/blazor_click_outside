@@ -16,7 +16,7 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
     [Parameter]
-    public Func<Task> OnClickOut { get; set; }
+    public EventCallback OnClickOut { get; set; }
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
     [Parameter(CaptureUnmatchedValues = true)]
@@ -25,6 +25,7 @@
     public List<string> ExcludedHTMLElementIDs { get; set; }
 
     public ElementReference Element { get; private set; }
+    bool AllowRender = false;
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -37,7 +38,18 @@
     [JSInvokable]
     public Task ClickOut()
     {
-        //if (element.Id == Element.Id)
-        return OnClickOut?.Invoke();
+        return OnClickOut.InvokeAsync(null);
+    }
+
+    public void Review()
+    {
+        AllowRender = true;
+        StateHasChanged();
+        AllowRender = false;
+    }
+
+    protected override bool ShouldRender()
+    {
+        return AllowRender;
     }
 }
