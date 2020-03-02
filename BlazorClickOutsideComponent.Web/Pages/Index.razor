@@ -1,5 +1,37 @@
 ﻿@page "/"
+<button id="@ButtonOutId" @ref="ButtonOut">ButtonOut</button>
 
-<h1>Hello, world!</h1>
+<BlazorClickOutside OnClickOut="ClickOutHandler"
+                    ExcludedHTMLElementIDs="new List<string> { ButtonOutId }">
+    <div>Counter: @counter</div>
+    <button @onclick="() => Counter ++">+</button>
+</BlazorClickOutside>
 
-Welcome to your new app.
+@code {
+    ElementReference ButtonOut;
+    BlazorClickOutsideComponent.BlazorClickOutside outside;
+
+    string ButtonOutId = "123";
+    int counter = 0;
+    int Counter
+    {
+        get
+        {
+            return counter;
+        }
+        set
+        {
+            counter = value;
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+
+    void ClickOutHandler()
+    {
+        var a = 1;
+    }
+}
