@@ -1,8 +1,8 @@
 ﻿@page "/"
 <button id="@ButtonOutId">ButtonOut</button>
 
-<BlazorClickOutside OnClickOut="ClickOutHandler1"
-                    ExcludedHTMLElementIDs="ExcludedIDs"
+<BlazorClickOutside ExcludedHTMLElementIDs="ExcludedIDs"
+                    OnClickOut="ClickOutHandler1"
                     OnClick="OnClickHandler1">
     <div>Counter: @Counter1</div>
     <button @onclick="() => Counter1 ++">+</button>
@@ -53,16 +53,16 @@
         base.OnAfterRender(firstRender);
     }
 
-    async void ClickOutHandler1()
+    async Task ClickOutHandler1()
     {
         var a = 1;
     }
-    async void ClickOutHandler2()
+    async Task ClickOutHandler2()
     {
         var a = 1;
     }
 
-    async void OnClickHandler1()
+    async Task OnClickHandler1()
     {
         var a = 1;
     }

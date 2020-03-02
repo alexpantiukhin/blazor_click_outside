@@ -16,7 +16,7 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
     [Parameter]
-    public EventCallback OnClickOut { get; set; }
+    public Func<Task> OnClickOut { get; set; }
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
     [Parameter(CaptureUnmatchedValues = true)]
@@ -38,6 +38,6 @@
     public Task ClickOut()
     {
         //if (element.Id == Element.Id)
-        return OnClickOut.InvokeAsync(null);
+        return OnClickOut?.Invoke();
     }
 }
