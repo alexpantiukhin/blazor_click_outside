@@ -32,8 +32,9 @@
     }
 
     [JSInvokable]
-    public Task ClickOut()
+    public async Task ClickOut()
     {
-        return OnClickOut.InvokeAsync(null);
+        //if (element.Id == Element.Id)
+        await OnClickOut.InvokeAsync(null);
     }
 }

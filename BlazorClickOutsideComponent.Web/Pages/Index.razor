@@ -1,10 +1,16 @@
 ﻿@page "/"
 <button id="@ButtonOutId" @ref="ButtonOut">ButtonOut</button>
 
-<BlazorClickOutside OnClickOut="ClickOutHandler"
+<BlazorClickOutside OnClickOut="ClickOutHandler1"
                     ExcludedHTMLElementIDs="new List<string> { ButtonOutId }">
-    <div>Counter: @counter</div>
-    <button @onclick="() => Counter ++">+</button>
+    <div>Counter: @Counter1</div>
+    <button @onclick="() => Counter1 ++">+</button>
+</BlazorClickOutside>
+
+
+<BlazorClickOutside OnClickOut="ClickOutHandler2">
+    <div>Counter: @Counter2</div>
+    <button @onclick="() => Counter2 ++">+</button>
 </BlazorClickOutside>
 
 @code {
@@ -12,16 +18,28 @@
     BlazorClickOutsideComponent.BlazorClickOutside outside;
 
     string ButtonOutId = "123";
-    int counter = 0;
-    int Counter
+    int counter1 = 0;
+    int Counter1
     {
         get
         {
-            return counter;
+            return counter1;
         }
         set
         {
-            counter = value;
+            counter1 = value;
+        }
+    }
+    int counter2 = 0;
+    int Counter2
+    {
+        get
+        {
+            return counter2;
+        }
+        set
+        {
+            counter2 = value;
         }
     }
 
@@ -30,7 +48,11 @@
         base.OnAfterRender(firstRender);
     }
 
-    void ClickOutHandler()
+    void ClickOutHandler1()
+    {
+        var a = 1;
+    }
+    void ClickOutHandler2()
     {
         var a = 1;
     }

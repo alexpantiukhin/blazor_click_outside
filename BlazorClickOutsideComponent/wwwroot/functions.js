@@ -5,7 +5,7 @@ window.OutClickComponent = {
     elements: [],
     setEvent: function (element, dotNet, excludedIDs) {
 
-        var findElement = this.elements.find(x => x.Id === element.Id);
+        var findElement = this.elements.find(x => x.element === element);
 
         if (!findElement) {
             findElement = {
@@ -41,7 +41,7 @@ window.OutClickComponent = {
                         }
 
                         if (isOut) {
-                            dotNet.invokeMethodAsync("ClickOut");
+                            dotNet.invokeMethodAsync("ClickOut", element);
                         }
                     }
                 }
