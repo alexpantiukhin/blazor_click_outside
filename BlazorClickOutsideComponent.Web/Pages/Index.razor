@@ -1,0 +1,72 @@
+﻿@page "/"
+<button id="@ButtonOutId">ButtonOut</button>
+
+<BlazorClickOutside OnClick="OnClickHandler1"
+                    OnClickOut="ClickOutHandler1"
+                    @ref="out1">
+    <div>Counter: @Counter1</div>
+
+    <BlazorClickOutside OnClickOut="ClickOutHandler2">
+        <div>Counter: @Counter2</div>
+    </BlazorClickOutside>
+</BlazorClickOutside>
+
+
+@code {
+    BlazorClickOutside out1;
+    string ButtonOutId = "123";
+    List<string> ExcludedIDs;
+    int counter1 = 0;
+    int Counter1
+    {
+        get
+        {
+            return counter1;
+        }
+        set
+        {
+            counter1 = value;
+        }
+    }
+    int counter2 = 0;
+    int Counter2
+    {
+        get
+        {
+            return counter2;
+        }
+        set
+        {
+            counter2 = value;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        ExcludedIDs = new List<string> { ButtonOutId };
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+
+    async Task ClickOutHandler1()
+    {
+        var a = 1;
+    }
+    async Task ClickOutHandler2()
+    {
+        var a = 1;
+    }
+
+    void OnClickHandler1()
+    {
+        Counter1++;
+    }
+
+    protected override bool ShouldRender()
+    {
+        return true;
+    }
+}

@@ -1,14 +1,16 @@
 ﻿@inject IJSRuntime _jsRuntime
 
 <div class="out-element-click @Class"
+     id="@HtmlId"
      @attributes="InputAttributes"
      @ref="Element"
-     @onclick="OnClick"
-     id="@GuidElement">
+     @onclick="async (x) => { AllowRender = false; await OnClick.InvokeAsync(x); AllowRender = true; }">
     @ChildContent
 </div>
 
 @code{
+    [Parameter]
+    public string HtmlId { get; set; }
     [Parameter]
     public string Class { get; set; }
     [Parameter]
@@ -19,9 +21,11 @@
     public EventCallback<MouseEventArgs> OnClick { get; set; }
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> InputAttributes { get; set; }
+    [Parameter]
+    public List<string> ExcludedHTMLElementIDs { get; set; }
 
-    public ElementReference Element { get; set; }
-    string GuidElement { get; set; }
+    public ElementReference Element { get; private set; }
+    bool AllowRender = true;
 
     public BlazorClickOutside()
     {
@@ -32,22 +36,25 @@
     {
         if (firstRender)
         {
-            _jsRuntime.InvokeVoidAsync("OutClickComponent.setEvent", DotNetObjectReference.Create(this), Element);
-
+            _jsRuntime.InvokeVoidAsync("OutClickComponent.setEvent", Element, DotNetObjectReference.Create(this), ExcludedHTMLElementIDs);
         }
     }
 
-    public void SetExcludedElements(params ElementReference[] elements)
+    [JSInvokable]
+    public async Task ClickOut()
     {
-        var items = new List<ElementReference>() { Element };
-        items.AddRange(elements);
-        _jsRuntime.InvokeVoidAsync("OutClickComponent.setExcludedElements", items);
+        AllowRender = false;
+        await OnClickOut.InvokeAsync(null);
+        AllowRender = true;
     }
 
-    [JSInvokable]
-    public async Task ClickOut(string guid)
+    public void Review()
     {
-        if (GuidElement == guid)
-            await OnClickOut.InvokeAsync(null);
+        StateHasChanged();
+    }
+
+    protected override bool ShouldRender()
+    {
+        return AllowRender;
     }
 }
