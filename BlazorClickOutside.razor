@@ -3,7 +3,8 @@
 <div class="out-element-click @Class"
      @attributes="InputAttributes"
      @ref="Element"
-     @onclick="OnClick">
+     @onclick="OnClick"
+     id="@GuidElement">
     @ChildContent
 </div>
 
@@ -20,6 +21,12 @@
     public Dictionary<string, object> InputAttributes { get; set; }
 
     public ElementReference Element { get; set; }
+    string GuidElement { get; set; }
+
+    public BlazorClickOutside()
+    {
+        GuidElement = Guid.NewGuid().ToString();
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -32,12 +39,15 @@
 
     public void SetExcludedElements(params ElementReference[] elements)
     {
-        _jsRuntime.InvokeVoidAsync("OutClickComponent.setExcludedElements", elements);
+        var items = new List<ElementReference>() { Element };
+        items.AddRange(elements);
+        _jsRuntime.InvokeVoidAsync("OutClickComponent.setExcludedElements", items);
     }
 
     [JSInvokable]
-    public Task ClickOut()
+    public async Task ClickOut(string guid)
     {
-        return OnClickOut.InvokeAsync(null);
+        if (GuidElement == guid)
+            await OnClickOut.InvokeAsync(null);
     }
 }
