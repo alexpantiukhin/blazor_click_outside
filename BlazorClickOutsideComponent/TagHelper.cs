@@ -1,15 +1,20 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Al.BlazorComponentsTagHelper;
 
 namespace BlazorClickOutsideComponent
 {
     public static class TagHelper
     {
-        public static HtmlString AddClickOutsideScripts(this IHtmlHelper html, string[] items)
+        const string ComponentString = "<script src='_content/BlazorClickOutsideComponent/functions.js'></script>";
+        public static HtmlString AddClickOutsideScripts(this IHtmlHelper html, params string[] items)
         {
-            string result = "<script src='_content/BlazorClickOutsideComponent/functions.js'></script>";
-            result += items == null ? null : string.Join("", items);
-            return new HtmlString(result);
+            return CommonTagHelper.AddCommonComponentString(ComponentString);
+        }
+
+        public static HtmlString AddClickOutsideScripts(this HtmlString htmlString)
+        {
+            return htmlString.AddCommonComponentString(ComponentString);
         }
     }
 }
