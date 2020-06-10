@@ -7,7 +7,7 @@ namespace BlazorClickOutsideComponent
     {
         public static HtmlString AddClickOutsideScripts(this IHtmlHelper html, string[] items)
         {
-            string result = "<script src='_content/BlazorClickOutside/functions.js'></script>";
+            string result = "<script src='_content/BlazorClickOutsideComponent/functions.js'></script>";
             result += items == null ? null : string.Join("", items);
             return new HtmlString(result);
         }
