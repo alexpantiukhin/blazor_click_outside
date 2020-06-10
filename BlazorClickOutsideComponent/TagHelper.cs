@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Al.BlazorMultiDropDownList
+namespace BlazorClickOutsideComponent
 {
     public static class TagHelper
     {
