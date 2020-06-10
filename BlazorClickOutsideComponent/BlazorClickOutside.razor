@@ -1,10 +1,12 @@
-﻿@inject IJSRuntime _jsRuntime
+﻿@inherits Al.BlazorCustomRefreshComponent.RefreshComponent
+
+@inject IJSRuntime _jsRuntime
 
 <div class="out-element-click @Class"
      id="@HtmlId"
      @attributes="InputAttributes"
      @ref="Element"
-     @onclick="async (x) => { AllowRender = false; await OnClick.InvokeAsync(x); AllowRender = true; }">
+     @onclick="x => OnClick.InvokeAsync(x)">
     @ChildContent
 </div>
 
@@ -19,21 +21,20 @@
     public EventCallback OnClickOut { get; set; }
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> InputAttributes { get; set; }
     [Parameter]
     public List<string> ExcludedHTMLElementIDs { get; set; }
 
-    public ElementReference Element { get; private set; }
-    bool AllowRender = true;
+    protected override bool CustomRefresh => true;
 
-    public BlazorClickOutside()
-    {
-        //GuidElement = Guid.NewGuid().ToString();
-    }
+    public ElementReference Element { get; private set; }
 
     protected override void OnAfterRender(bool firstRender)
     {
+        base.OnAfterRender(firstRender);
+
         if (firstRender)
         {
             _jsRuntime.InvokeVoidAsync("OutClickComponent.setEvent", Element, DotNetObjectReference.Create(this), ExcludedHTMLElementIDs);
@@ -41,20 +42,9 @@
     }
 
     [JSInvokable]
-    public async Task ClickOut()
+    public Task ClickOut()
     {
-        AllowRender = false;
-        await OnClickOut.InvokeAsync(null);
-        AllowRender = true;
+        return OnClickOut.InvokeAsync(null);
     }
 
-    public void Review()
-    {
-        StateHasChanged();
-    }
-
-    protected override bool ShouldRender()
-    {
-        return AllowRender;
-    }
 }
